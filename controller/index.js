@@ -1,6 +1,14 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: 贾峰
+ * @Date: 2020-04-22 09:54:00
+ * @LastEditors: 贾峰
+ * @LastEditTime: 2020-07-23 18:00:42
+ */ 
 const Service = require('../service')
-const {client,assert} = require('../db/index')
-const insertDocuments = require('../db/handle_query/insertData')
+const insertData = require('../db/handle_query/insertData')
+const removeData = require('../db/handle_query/removeData')
 module.exports = {
     index: async (ctx, next) => {
         ctx.response.header = {
@@ -37,19 +45,26 @@ module.exports = {
         let data = await Service.register(name,password)
         ctx.response.body = data
     },
+    removeData: async(ctx,next) => {
+        let requestData = ctx.params.id
+        let res = await removeData(requestData)
+        if(res == 'empty'){
+            ctx.response.body = {
+                status: '110',
+                msg: '数据未找到'
+            }
+        }
+    },
     insertData: async (ctx,next) => {
         ctx.response.header = {
             "Access-Control-Allow-Origin": "*"
         }
         let requestData = ctx.request.body
-        console.log(requestData)
-        // const dbclient = client.db('test');
-        //   insertDocuments(dbclient,assert, function() {
-        //     client.close();
-        //   });
+        let res = await insertData(requestData)
+        console.log(res)
         ctx.response.body = {
             status: 200,
-            msg: 'hhhhhh'
+            msg: '操作成功'
         }
     }
 }

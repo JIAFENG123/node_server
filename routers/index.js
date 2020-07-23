@@ -4,7 +4,7 @@
  * @Author: 贾峰
  * @Date: 2020-04-22 09:37:12
  * @LastEditors: 贾峰
- * @LastEditTime: 2020-07-22 17:04:37
+ * @LastEditTime: 2020-07-23 16:42:30
  */ 
 const router = require('koa-router')()
 const Homecontroller = require('../controller')
@@ -21,6 +21,8 @@ module.exports = app => {
     router.post('/user/register', Homecontroller.register)
 
     router.post('/insertData', Homecontroller.insertData)
+
+    router.delete('/removeData/:id', Homecontroller.removeData)
     // 调用路由中间件
     app.use(router.routes())
 }
